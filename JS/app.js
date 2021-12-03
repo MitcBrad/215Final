@@ -44,14 +44,7 @@ new Vue({
                 brand:'Maton',
                 pic:'https://bostonglobe-prod.cdn.arcpublishing.com/resizer/ceH6l2dHDQafeI28I1Wtu4_aYnw=/1440x0/cloudfront-us-east-1.images.arcpublishing.com/bostonglobe/HQGU2RJEHRC4VKGGVW5B5PA7BY.jpg'
             }
-            ,
-            {
-                name:'',
-                type:'',
-                price:'',
-                brand:'',
-                pic:''
-            }
+
         ]
     }
 
