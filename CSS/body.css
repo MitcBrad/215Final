@@ -45,6 +45,7 @@ h1{
 .inner{
     height: 250px;
     width: 300px;
+    margin: 10px auto;
 }
 .instrumentCard{
     height: 100%;
@@ -59,7 +60,6 @@ h1{
 #instrument-list{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     height: 100%;
     width: 100%;
 }
