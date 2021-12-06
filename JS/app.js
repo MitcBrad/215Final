@@ -1,3 +1,18 @@
+let debounce = false;
+let destination = document.getElementById("appendHere");
+destination.style.display = "none";
+
+let cart=[];
+
+function close(){
+    document.getElementsByClassName("popupFender").remove(self);
+
+    debounce = false;
+
+}
+document.getElementById("closeX").addEventListener("click",close);
+
+
 new Vue({
     el: "#instrument-list",
     data: {
@@ -14,45 +29,119 @@ new Vue({
                 type:'Woodwind',
                 price:'$69.99',
                 brand:'Yamaha',
-                pic:'https://m.media-amazon.com/images/I/71KUdr-LtGL._AC_SL1500_.jpg'
+                pic:'https://m.media-amazon.com/images/I/71KUdr-LtGL._AC_SL1500_.jpg',
+                color: 'green'
             },
             {
                 name:'Piano',
                 type:'Uhhh..',
                 price:'$499.99',
                 brand:'Yamaha',
-                pic:'https://www.yamaha.com/en/musical_instrument_guide/common/images/piano/parts_viewer01.jpg'
+                pic:'https://www.yamaha.com/en/musical_instrument_guide/common/images/piano/parts_viewer01.jpg',
+                color: 'green'
             },
             {
                 name:'Guitar',
                 type:'Strings',
                 price:'$129.99',
                 brand:'Fender',
-                pic:'https://d1aeri3ty3izns.cloudfront.net/media/23/235459/600/preview_4.jpg'
+                pic:'https://d1aeri3ty3izns.cloudfront.net/media/23/235459/600/preview_4.jpg',
+                color: 'red'
             },
             {
                 name:'Trumpet',
                 type:'Brass',
                 price:'$95.99',
                 brand:'Yamaha',
-                pic:'https://m.media-amazon.com/images/I/71l6xKqHLCL._AC_SL1500_.jpg'
+                pic:'https://m.media-amazon.com/images/I/71l6xKqHLCL._AC_SL1500_.jpg',
+                color: 'green'
             },
             {
                 name:'Violin',
                 type:'Strings',
                 price:'$49.99',
                 brand:'Maton',
-                pic:'https://bostonglobe-prod.cdn.arcpublishing.com/resizer/ceH6l2dHDQafeI28I1Wtu4_aYnw=/1440x0/cloudfront-us-east-1.images.arcpublishing.com/bostonglobe/HQGU2RJEHRC4VKGGVW5B5PA7BY.jpg'
+                pic:'https://bostonglobe-prod.cdn.arcpublishing.com/resizer/ceH6l2dHDQafeI28I1Wtu4_aYnw=/1440x0/cloudfront-us-east-1.images.arcpublishing.com/bostonglobe/HQGU2RJEHRC4VKGGVW5B5PA7BY.jpg',
+                color: 'blue'
             }
 
         ]
+    },
+    methods: {
+
+        popmeup(name,type, price, brand, pic){
+
+            if(debounce == false) {
+                debounce = true;
+                console.log(debounce);
+                destination.style.display = "Flex";
+                let targ = event.currentTarget;
+                this.ele = document.createElement("div");
+                if(brand == "Fender"){
+                    this.ele.className = "popupFender";
+                }
+                else if (brand == "Yamaha"){
+                    this.ele.className = "popupYamaha";
+                }
+                else if (brand == "Maton"){
+                    this.ele.className = "popupMaton";
+                }
+
+                let picture = document.createElement("img");
+                picture.src = pic;
+                picture.className = "popupImage";
+                let textHold = document.createElement("div");
+                textHold.className = "popupTextHolder";
+                let myname = document.createElement("p");
+                myname.innerHTML = brand + " " + name;
+                myname.className = "p";
+                let myprice = document.createElement("p");
+                myprice.innerHTML = "Price: " + price;
+                myprice.className = "p";
+                // let addbutton = document.createElement("button")
+                // addbutton.className = "addToCart";
+
+
+                this.ele.appendChild(picture);
+                this.ele.appendChild(textHold)
+                textHold.appendChild(myname);
+                textHold.appendChild(myprice);
+
+                destination.appendChild(this.ele);
+            }
+                else{
+                debounce = false;
+                console.log("False")
+                destination.removeChild(this.ele);
+            }
+
+            },
+        instrHov(brand){
+            let thistarg = event.currentTarget;
+            if(brand == "Fender"){
+                thistarg.classList.add("fenderhover")
+            }
+            else if (brand == "Yamaha"){
+                thistarg.classList.add("yamahahover")
+            }
+            else if (brand == "Maton"){
+                thistarg.classList.add("matonhover")
+            }
+        },
+        instrLea(brand){
+            let curTarg = event.currentTarget;
+            if(brand == "Fender"){
+                curTarg.classList.remove("fenderhover");
+            }
+            else if (brand == "Yamaha"){
+                curTarg.classList.remove("yamahahover");
+            }
+            else if (brand == "Maton"){
+                curTarg.classList.remove("matonhover");
+            }
+        }
     }
-
 })
-
-
-//drum floot piano guitar trumpet violin
-
 
 
 
