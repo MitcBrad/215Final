@@ -1,9 +1,9 @@
 .body{
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: 100%;
-    background-color: black;
+    background-color: #ffffff;
     z-index: 2;
 }
 h1{
@@ -41,9 +41,10 @@ h1{
     height: 100%;
     width: 100%;
     margin: 0 auto;
+
 }
 .inner{
-    height: 250px;
+    height: 280px;
     width: 300px;
     margin: 10px auto;
 }
@@ -85,4 +86,21 @@ h1{
 .bottomHolder h1{
     color: #ffffff;
     text-shadow: 2px 2px 4px #000000;
+}
+.EmptyStore{
+    font-size: 80px;
+    font-family: Arial black;
+}
+.add{
+    height: 80%;
+    width: 80%;
+    margin-bottom: 20px;
+}
+#newitem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
 }
