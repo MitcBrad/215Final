@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../CSS/body.css">
     <link rel="stylesheet" href="../CSS/popup.css">
     <link rel="stylesheet" href="../CSS/specialHover.css">
+    <link rel="stylesheet" href="../CSS/cart.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -25,37 +26,50 @@
     <div class="cart">
         <h2>About</h2>
         <h2>Contact</h2>
-        <i class="fa fas fa-shopping-cart"></i>
+        <i class="fa fas fa-shopping-cart" id="viewCart"></i>
     </div>
 </section>
 <section class="picbody">
     <div class="pic"></div>
     <div class="divider"></div>
 </section>
-<section class="body">
-    <div class="content">
-        <div id="appendHere">
-            <div class="buttonsHolder">
-                <button id="closeX">CLOSE PRODUCT VIEW</button>
 
-                <button id="addToCart">ADD TO CART</button>
+<section class="body" id="body">
+    <div id="cart">
+        <h1 class="itemin">Items In Your Cart</h1>
+        <div id="cartItemsHere">
+
+        </div>
+    </div>
+
+    <div class="content" id="content">
+        <div id="appendHere">
+            <div id="destined"></div>
+            <div class="buttonsHolder">
+                <button id="closeX" v-on:click="closeThing()">CLOSE PRODUCT VIEW</button>
+                <button id="addToCart" v-on:click="addToCart()">ADD TO CART</button>
             </div>
         </div>
         <form id="instrument-list">
             <div class="inner" v-for="items in instruments">
-                <div class="instrumentCard" v-on:click="popmeup(items.name,items.type, items.price, items.brand, items.pic, items.color)" v-on:mouseenter="instrHov(items.brand)" v-on:mouseleave="instrLea(items.brand)">
-                    <div class="cardImage"><img :src="items.pic"></div>
+                <div class="instrumentCard" v-bind:id="items.name" v-on:mouseenter="instrHov(items.brand)" v-on:mouseleave="instrLea(items.brand)">
+                    <div class="cardImage" v-on:click="popmeup(items.name,items.type, items.price, items.brand, items.pic, items.color)"><img :src="items.pic"></div>
                     <div class="bottomHolder">
-                    <h1>{{items.name}}</h1>
-                    <h1>{{items.price}}</h1>
+                        <h1>{{items.name}}</h1>
+                        <h1>{{items.price}}</h1>
                     </div>
+                    <button id="alsoAdd" v-on:click="alsoAdd(items.name,items.type,items.price,items.brand,items.pic)" type="button">Add To Cart</button>
                 </div>
             </div>
-
+        <div class="inner">
+            <div class="instrumentCard" id="newitem" v-on:click="addItem">
+                    <img class="add" src="https://cdn-icons-png.flaticon.com/512/32/32339.png" alt="">
+                <h1>Add New Item</h1>
+            </div>
+        </div>
         </form>
 
     </div>
-
 </section>
 
 
