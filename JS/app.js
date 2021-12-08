@@ -1,18 +1,19 @@
 let debounce = false;
 let destination = document.getElementById("appendHere");
 destination.style.display = "none";
+let destined = document.getElementById("destined")
+destined.style.display = "none";
+currentOpen = "";
+currentItem ="";
+currentName="";
 
-let cart=[];
+let cart=[
 
-function close(){
-    document.getElementsByClassName("popupFender").remove(self);
-
-    debounce = false;
-
-}
-document.getElementById("closeX").addEventListener("click",close);
-
-
+];
+document.getElementById("viewCart").addEventListener("click",viewCartList);
+document.getElementById("closeX").addEventListener("click",closeThing);
+document.getElementById("addToCart").addEventListener("click",addToCart)
+// document.getElementById("newitem").addEventListener("click",addItem);
 new Vue({
     el: "#instrument-list",
     data: {
@@ -70,21 +71,49 @@ new Vue({
     methods: {
 
         popmeup(name,type, price, brand, pic){
-
+            console.log("Clicked");
             if(debounce == false) {
                 debounce = true;
                 console.log(debounce);
                 destination.style.display = "Flex";
+                destined.style.display = "Flex";
                 let targ = event.currentTarget;
                 this.ele = document.createElement("div");
                 if(brand == "Fender"){
                     this.ele.className = "popupFender";
+                    currentOpen = "Fender";
+                    currentItem = {
+                        "Name":name,
+                        "Type":type,
+                        "Price":price,
+                        "Brand":brand,
+                        "Pic":pic
+                    };
+                    currentName = name;
                 }
                 else if (brand == "Yamaha"){
                     this.ele.className = "popupYamaha";
+                    currentOpen = "Yamaha";
+                    currentItem={
+                        "Name":name,
+                        "Type":type,
+                        "Price":price,
+                        "Brand":brand,
+                        "Pic":pic
+                    };
+                    currentName = name;
                 }
                 else if (brand == "Maton"){
                     this.ele.className = "popupMaton";
+                    currentOpen = "Maton";
+                    currentItem = {
+                        "Name":name,
+                        "Type":type,
+                        "Price":price,
+                        "Brand":brand,
+                        "Pic":pic
+                    };
+                    currentName = name;
                 }
 
                 let picture = document.createElement("img");
@@ -107,15 +136,11 @@ new Vue({
                 textHold.appendChild(myname);
                 textHold.appendChild(myprice);
 
-                destination.appendChild(this.ele);
-            }
-                else{
-                debounce = false;
-                console.log("False")
-                destination.removeChild(this.ele);
+                destined.appendChild(this.ele);
             }
 
-            },
+
+        },
         instrHov(brand){
             let thistarg = event.currentTarget;
             if(brand == "Fender"){
@@ -139,11 +164,114 @@ new Vue({
             else if (brand == "Maton"){
                 curTarg.classList.remove("matonhover");
             }
+        },
+        alsoAdd(name,type,price,brand,pic){
+            cart.push({
+                "Name":name,
+                "Type":type,
+                "Price":price,
+                "Brand":brand,
+                "Pic":pic
+            })
+            document.getElementById(name).parentElement.style.display = "none";
+            closeThing()
+            console.log(cart.length)
+            if(cart.length == this.instruments.length){
+                console.log("Cart Full")
+                console.log(this.instruments.length)
+                document.getElementById("instrument-list").display = "None";
+                let cont = document.getElementById("content")
+                cont.style.flexDirection = "column-reverse";
+                cont.style.display = "Flex";
+                let newPart = document.createElement("p")
+                newPart.innerHTML = "Store is Empty";
+                newPart.className= "EmptyStore";
+                newPart.id = "newPart"
+                cont.appendChild(newPart);
+            }
+        },
+        addItem(){
+            let itemName = prompt("Type item name here: ");
+            let itemType = prompt("Type item type here: ");
+            let itemPrice = prompt("Type item price here: ");
+            let itemBrand = prompt("Type item brand here: ");
+            let itemPic = prompt("Paste pic link here: ");
+            let conf = confirm("Accept");
+            let newItem = {
+                name: itemName,
+                type: itemType,
+                price: itemPrice,
+                brand: itemBrand,
+                pic: itemPic
+            }
+            this.instruments.push(newItem);
+            if(cart.length != this.instruments.length){
+                document.getElementById("instrument-list").display = "Flex";
+                document.getElementById("newPart").innerHTML = "";
+            }
         }
     }
 })
+function viewCartList(){
+    console.log("View Cart");
+    if(cart.length == 0){
+        alert("Cart is empty!");
+    }
+    else{
+        for(i = 0; i< cart.length; i++){
+            document.getElementById("cart").style.display = "Flex";
+            let cartLocation = document.getElementById("cartItemsHere")
+            let cartItem = document.createElement("div");
+            cartItem.className = "cartItem";
+            let imageDest = document.createElement("img");
+            imageDest.src = cart[i].Pic
+            imageDest.className = "cartImage";
+            let itemName = document.createElement("h1");
+            itemName.innerHTML = cart[i].Brand + " " + cart[i].Name;
 
 
+        cartItem.appendChild(imageDest);
+        cartItem.appendChild(itemName);
+        cartLocation.appendChild(cartItem);
+        document.getElementById("content").style.display = "None";
+    }}
+}
+function closeThing(){
+    debounce = false;
+    if(currentOpen == "Yamaha"){
+        let yama = document.getElementsByClassName("popupYamaha")
+        yama[0].style.display = "None";
+        yama[0].remove()
+        destination.style.display = "none";
+    }
+    else if (currentOpen == "Fender"){
+        let fend = document.getElementsByClassName("popupFender")
+        fend[0].style.display = "none";
+        fend[0].remove()
+        destination.style.display = "none";
+    }
+    else if (currentOpen == "Maton"){
+        let mato = document.getElementsByClassName("popupMaton")
+        mato[0].style.display = "none";
+        mato[0].remove()
+        destination.style.display = "none";
+    }
+
+}
+function addToCart(){
+    console.log("Add to Cart");
+    document.getElementById(currentName).parentElement.style.display = "none"
+    closeThing();
+    cart.push({
+        currentItem
+    })
+    console.log(cart.length);
+
+    if(cart.length == 6){
+        document.getElementById("instrument-list").display = "None";
+        document.getElementsByClassName("Content").innerHTML = "Store is Empty";
+    }
+}
 
 
 // There should be a list of 6 instruments having data points of at least Name, Instrument Type, Price, and Brand.
