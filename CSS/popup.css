@@ -14,6 +14,13 @@
     left: 0;
     align-items: center;
 }
+#destined{
+    /*display: none;*/
+    display: flex;
+    flex-direction: column;
+    height:50%;
+    width: 100%;
+}
 #addToCart{
     height: 70px;
     width: 290px;
@@ -34,7 +41,7 @@
 .popupFender{
     display: flex;
     flex-direction: column;
-    height: 45%;
+    height: 90%;
     width: 35%;
     background-color: #9a0347;
     margin: 0 auto;
@@ -46,7 +53,7 @@
 .popupYamaha{
     display: flex;
     flex-direction: column;
-    height: 45%;
+    height: 90%;
     width: 35%;
     background-color: #167302;
     margin: 0 auto;
@@ -58,7 +65,7 @@
 .popupMaton{
     display: flex;
     flex-direction: column;
-    height: 45%;
+    height: 90%;
     width: 35%;
     background-color: #0531a6;
     margin: 0 auto;
