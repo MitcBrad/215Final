@@ -6,14 +6,14 @@ destined.style.display = "none";
 currentOpen = "";
 currentItem ="";
 currentName="";
-currentLength = 0;
-
+let currentVal = 0;
+let cartdebounce = false;
 let cart=[
 
 ];
 document.getElementById("viewCart").addEventListener("click",viewCartList);
 document.getElementById("closeX").addEventListener("click",closeThing);
-document.getElementById("addToCart").addEventListener("click",addToCart);
+document.getElementById("addToCart").addEventListener("click",addToCart)
 // document.getElementById("newitem").addEventListener("click",addItem);
 new Vue({
     el: "#instrument-list",
@@ -70,12 +70,12 @@ new Vue({
         ]
     },
     methods: {
+
         popmeup(name,type, price, brand, pic){
             console.log("Clicked");
-            currentLength = this.instruments.length
-            console.log(currentLength)
             if(debounce == false) {
                 debounce = true;
+                console.log(debounce);
                 destination.style.display = "Flex";
                 destined.style.display = "Flex";
                 let targ = event.currentTarget;
@@ -90,8 +90,6 @@ new Vue({
                         "Brand":brand,
                         "Pic":pic
                     };
-                    console.log(currentItem)
-
                     currentName = name;
                 }
                 else if (brand == "Yamaha"){
@@ -104,8 +102,6 @@ new Vue({
                         "Brand":brand,
                         "Pic":pic
                     };
-                    console.log(currentItem)
-
                     currentName = name;
                 }
                 else if (brand == "Maton"){
@@ -118,7 +114,6 @@ new Vue({
                         "Brand":brand,
                         "Pic":pic
                     };
-                    console.log(currentItem)
                     currentName = name;
                 }
 
@@ -133,11 +128,15 @@ new Vue({
                 let myprice = document.createElement("p");
                 myprice.innerHTML = "Price: " + price;
                 myprice.className = "p";
+                // let addbutton = document.createElement("button")
+                // addbutton.className = "addToCart";
+
 
                 this.ele.appendChild(picture);
                 this.ele.appendChild(textHold)
                 textHold.appendChild(myname);
                 textHold.appendChild(myprice);
+
                 destined.appendChild(this.ele);
             }
 
@@ -168,16 +167,16 @@ new Vue({
             }
         },
         alsoAdd(name,type,price,brand,pic){
-            let currentItem = {
+            cart.push({
                 "Name":name,
                 "Type":type,
                 "Price":price,
                 "Brand":brand,
                 "Pic":pic
-            };
-            cart.push(currentItem)
+            })
             document.getElementById(name).parentElement.style.display = "none";
             closeThing()
+            currentVal = this.instruments.length
             console.log(cart.length)
             if(cart.length == this.instruments.length){
                 console.log("Cart Full")
@@ -220,31 +219,43 @@ function viewCartList(){
     if(cart.length == 0){
         alert("Cart is empty!");
     }
-    else{
-        for(i = 0; i< cart.length; i++){
-            cart[i].currentItem
-            document.getElementById("cart").style.display = "Flex";
-            let cartLocation = document.getElementById("cartItemsHere")
-            let cartItem = document.createElement("div");
-            cartItem.className = "cartItem";
-            let imageDest = document.createElement("img");
-            imageDest.src = cart[i].currentItem.Pic
-            imageDest.className = "cartImage";
-            let itemName = document.createElement("h1");
-            itemName.innerHTML = cart[i].currentItem.Brand + " " + cart[i].currentItem.Name;
+    else {
+        if (cartdebounce == false) {
+            for (i = 0; i < cart.length; i++) {
+                document.getElementById("cart").style.display = "Flex";
+                let cartLocation = document.getElementById("cartItemsHere")
+                let cartItem = document.createElement("div");
+                cartItem.className = "cartItem";
+                let imageDest = document.createElement("img");
+                imageDest.src = cart[i].Pic
+                imageDest.className = "cartImage";
+                let itemName = document.createElement("h1");
+                itemName.innerHTML = cart[i].Brand + " " + cart[i].Name;
 
 
-        cartItem.appendChild(imageDest);
-        cartItem.appendChild(itemName);
-        cartLocation.appendChild(cartItem);
-        document.getElementById("content").style.display = "None";
-    }}
+                cartItem.appendChild(imageDest);
+                cartItem.appendChild(itemName);
+                cartLocation.appendChild(cartItem);
+                document.getElementById("content").style.display = "None";
+                cartdebounce = true;
+            }
+        }
+        else if(cartdebounce == true){
+            cartdebounce = false;
+            let cartLocation = document.getElementById("cart")
+            cartLocation.style.display = "None";
+            document.getElementById("content").style.display = "Flex";
+            document.getElementById("cartItemsHere").remove()
+            let newCartItemsHere = document.createElement("div");
+            newCartItemsHere.id = "cartItemsHere"
+            document.getElementById("cart").appendChild(newCartItemsHere);
+        }
+    }
 }
 function closeThing(){
     debounce = false;
     if(currentOpen == "Yamaha"){
         let yama = document.getElementsByClassName("popupYamaha")
-        console.log(yama[0])
         yama[0].style.display = "None";
         yama[0].remove()
         destination.style.display = "none";
@@ -267,10 +278,12 @@ function addToCart(){
     console.log("Add to Cart");
     document.getElementById(currentName).parentElement.style.display = "none"
     closeThing();
-    cart.push({currentItem})
-    console.log(cart)
+    cart.push({
+        currentItem
+    })
+    console.log(cart.length);
 
-    if(cart.length == currentLength){
+    if(cart.length == currentVal){
         document.getElementById("instrument-list").display = "None";
         document.getElementsByClassName("Content").innerHTML = "Store is Empty";
     }
