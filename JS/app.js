@@ -128,14 +128,16 @@ new Vue({
                 let myprice = document.createElement("p");
                 myprice.innerHTML = "Price: " + price;
                 myprice.className = "p";
-                // let addbutton = document.createElement("button")
-                // addbutton.className = "addToCart";
-
+                let mytype = document.createElement("p")
+                mytype.innerHTML = "Type: " + type;
+                mytype.className = "p";
+                console.log(currentItem)
 
                 this.ele.appendChild(picture);
                 this.ele.appendChild(textHold)
                 textHold.appendChild(myname);
                 textHold.appendChild(myprice);
+                textHold.appendChild(mytype)
 
                 destined.appendChild(this.ele);
             }
@@ -166,13 +168,14 @@ new Vue({
                 curTarg.classList.remove("matonhover");
             }
         },
-        alsoAdd(name,type,price,brand,pic){
+        alsoAdd(name,type,price,brand,pic,color){
             cart.push({
-                "Name":name,
-                "Type":type,
-                "Price":price,
-                "Brand":brand,
-                "Pic":pic
+                "Name" : name,
+                "Type" : type,
+                "Price" : price,
+                "Brand" : brand,
+                "Pic" : pic,
+                "Color" : color
             })
             document.getElementById(name).parentElement.style.display = "none";
             closeThing()
@@ -190,6 +193,10 @@ new Vue({
                 newPart.className= "EmptyStore";
                 newPart.id = "newPart"
                 cont.appendChild(newPart);
+            }
+            else{
+                document.getElementById("instrument-list").display = "Flex";
+                document.getElementById("content") .style.display = "Flex";
             }
         },
         addItem(){
@@ -222,12 +229,15 @@ function viewCartList(){
     else {
         if (cartdebounce == false) {
             for (i = 0; i < cart.length; i++) {
+                console.log(cart)
                 document.getElementById("cart").style.display = "Flex";
                 let cartLocation = document.getElementById("cartItemsHere")
                 let cartItem = document.createElement("div");
                 cartItem.className = "cartItem";
                 let imageDest = document.createElement("img");
-                imageDest.src = cart[i].Pic
+                console.log(currentItem.Pic)
+                imageDest.src= cart[i].Pic
+                imageDest.onerror = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png"
                 imageDest.className = "cartImage";
                 let itemName = document.createElement("h1");
                 itemName.innerHTML = cart[i].Brand + " " + cart[i].Name;
@@ -278,9 +288,14 @@ function addToCart(){
     console.log("Add to Cart");
     document.getElementById(currentName).parentElement.style.display = "none"
     closeThing();
+    console.log(currentItem)
     cart.push({
-        currentItem
-    })
+        "Name" : currentItem.Name,
+        "Type" : currentItem.Type,
+        "Price" : currentItem.Price,
+        "Brand" : currentItem.Brand,
+        "Pic" : currentItem.Pic,
+        "Color" : currentItem.Color})
     console.log(cart.length);
 
     if(cart.length == currentVal){
